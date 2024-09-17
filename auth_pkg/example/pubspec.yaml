@@ -31,7 +31,9 @@ dependencies:
   flutter:
     sdk: flutter
   auth_pkg:
-    path: ../
+    git:
+      url: https://github.com/Ow3nso/property_auth_pkg.git
+      ref: main
 
 
   # The following adds the Cupertino Icons font to your application.
