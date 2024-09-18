@@ -4,7 +4,6 @@ class CustomInputField extends StatelessWidget {
   final String hintText;
   final bool isPassword;
   final TextEditingController controller;
-  // final double width;
   final double height;
 
   CustomInputField({
@@ -19,8 +18,12 @@ class CustomInputField extends StatelessWidget {
     return Container(
       height: 60.0,
       decoration: BoxDecoration(
-        color: Color(0xFFD1CFD7), // Set the background color to grey
+        color: Colors.white,
         borderRadius: BorderRadius.circular(8.0), // Rounded corners
+        border: Border.all( // Add border property
+          color: Color(0xFF315EE7), // Set the border color
+          width: 1.0, // Set the border width
+        ),
       ),
       child: TextField(
         controller: controller,
