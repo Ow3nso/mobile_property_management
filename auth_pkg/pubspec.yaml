@@ -22,8 +22,8 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
 
-  assets:
-    - assets/images/genesis_house_img.png
+#  assets:
+#    - assets/images/genesis_house_img.png
 
   # To add assets to your package, add an assets section, like this:
   # assets:

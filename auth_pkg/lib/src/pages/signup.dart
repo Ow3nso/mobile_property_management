@@ -13,6 +13,7 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white, // Set the background color to white
       body: SingleChildScrollView( // Wrap Column with SingleChildScrollView
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -61,21 +62,21 @@ class SignUpPage extends StatelessWidget {
                 controller: emailController,
               ),
               SizedBox(height: 10),
-              Text(
-                'Phone Number',
-                style: TextStyle(
-                  color: Color(0xFF888888),
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              SizedBox(height: 10),
-              CustomInputField(
-                hintText: '+254712345678',
-                isPassword: false,
-                controller: numberController,
-              ),
-              SizedBox(height: 10),
+              // Text(
+              //   'Phone Number',
+              //   style: TextStyle(
+              //     color: Color(0xFF888888),
+              //     fontSize: 14.0,
+              //     fontWeight: FontWeight.normal,
+              //   ),
+              // ),
+              // SizedBox(height: 10),
+              // CustomInputField(
+              //   hintText: '+254712345678',
+              //   isPassword: false,
+              //   controller: numberController,
+              // ),
+              // SizedBox(height: 10),
               Text(
                 'PASSWORD',
                 style: TextStyle(
