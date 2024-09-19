@@ -11,6 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  auth_pkg:
+    path: ../auth_pkg
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

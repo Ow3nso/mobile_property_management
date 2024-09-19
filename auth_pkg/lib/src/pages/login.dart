@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
 import '../widgets/button.dart';
-import '../widgets/input_field.dart'; // Import the custom text input field
+import '../widgets/input_field.dart';
+import 'package:settings_pkg/src/pages/main_page.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -18,6 +18,7 @@ class LoginPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: 100),
               Text(
                 'Rentaxo',
                 style: TextStyle(
@@ -34,6 +35,7 @@ class LoginPage extends StatelessWidget {
                   color: Color(0xFF22215B),
                 ),
               ),
+              SizedBox(height: 20),
               Text(
                 'YOUR EMAIL',
                 style: TextStyle(
@@ -63,19 +65,70 @@ class LoginPage extends StatelessWidget {
                 isPassword: true,
                 controller: passwordController,
               ),
-              SizedBox(height: 30), // Add some spacing between the input field and the button
+              SizedBox(height: 15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end, // Move to the end
+                children: [
+                  Text(
+                    'FORGOT PASSWORD?',
+                    style: TextStyle(
+                      color: Color(0xFF888888),
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 30),
               CustomButton(
                 label: 'Login',
                 onPressed: () {
-                  // Define your action here
-                  print('Button Pressed!');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MainPage()),
+                  );
                 },
                 color: Color(0xFF315EE7),
                 textColor: Colors.white,
                 width: double.infinity,
                 height: 50,
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 30), // Add some spacing before OR LOGIN WITH text
+              Center(
+                child: Column(
+                  children: [
+                    Text(
+                      'OR LOGIN WITH',
+                      style: TextStyle(
+                        color: Color(0xFF888888),
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    SizedBox(height: 10), // Space between text and icons
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.account_circle),
+                          iconSize: 40.0,
+                          onPressed: () {
+                            // Add Google login functionality here
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.facebook),
+                          iconSize: 40.0,
+                          onPressed: () {
+                            // Add Facebook login functionality here
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Spacer(), // Push the following text to the bottom
               Center(
                 child: InkWell(
                   onTap: () {
