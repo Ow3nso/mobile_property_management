@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
-import 'package:settings_pkg/src/pages/profile.dart';
 import 'package:settings_pkg/src/pages/main_page.dart';
+
+// import 'package:settings_pkg/src/pages/profile.dart';
 
 void main() {
   runApp(MyApp());
