@@ -13,6 +13,9 @@ dependencies:
 
   auth_pkg:
     path: ../auth_pkg
+    
+  dashboard_pkg:
+    path: ../dashboard_pkg
 
 dev_dependencies:
   flutter_test:
