@@ -16,6 +16,8 @@ dependencies:
   google_sign_in: ^6.2.1
   settings_pkg:
     path: ../settings_pkg
+  dashboard_pkg:
+    path: ../dashboard_pkg
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dashboard_pkg/src/pages/dashboard.dart';
 import '../pages/profile.dart'; // Import ProfilePage
 import '../widgets/navigation/navigation_bar.dart'; // Import the custom nav bar
 
@@ -12,7 +13,7 @@ class _MainPageState extends State<MainPage> {
 
   // List of pages to navigate to
   final List<Widget> _pages = [
-    // HomePage(),
+    DashboardPage(),
     // ExplorePage(),
     // ChatPage(),
     // SavedPage(),
