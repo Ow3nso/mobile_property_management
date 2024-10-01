@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/property_card.dart';
 import '../pages/property_list.dart';
+import '../pages/property_detail.dart';
 
 class DashboardPage extends StatelessWidget{
   @override
@@ -106,15 +107,24 @@ class DashboardPage extends StatelessWidget{
                     ],
                   ),
                   SizedBox(height: 16),
-                  PropertyCard(
-                    imageUrl: 'https://images.unsplash.com/photo-1572120360610-d971b9d7767c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aG91c2V8ZW58MHx8MHx8fDA%3D', // Property image
-                    title: 'Entire private villa in Surabaya City',
-                    location: 'Narayanter, Near bimal\'s Villa',
-                    price: 'KSH 400 / month',
-                    rating: 4.9,
-                    reviews: 104,
-                    rooms: 2,
-                    area: '488 m²',
+                  InkWell(
+                    onTap: () {
+                    // navigate to detail view
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder:(context) => PropertyDetailPage()),
+                    );
+                  },
+                    child: PropertyCard(
+                      imageUrl: 'https://images.unsplash.com/photo-1572120360610-d971b9d7767c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aG91c2V8ZW58MHx8MHx8fDA%3D', // Property image
+                      title: 'Entire private villa in Surabaya City',
+                      location: 'Narayanter, Near bimal\'s Villa',
+                      price: 'KSH 400 / month',
+                      rating: 4.9,
+                      reviews: 104,
+                      rooms: 2,
+                      area: '488 m²',
+                    ),
                   ),
                 ],
               ),
