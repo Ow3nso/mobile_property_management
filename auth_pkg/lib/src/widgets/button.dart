@@ -20,8 +20,8 @@ class CustomButton extends StatelessWidget {
     this.width = double.infinity,
     this.height = 50.0,
     this.isLoading = false,
-    this.fontSize = 20.0,
-    this.fontWeight = FontWeight.bold,
+    this.fontSize = 15.0,
+    this.fontWeight = FontWeight.normal,
   }) : super(key: key);
 
   @override
@@ -34,7 +34,7 @@ class CustomButton extends StatelessWidget {
           backgroundColor: color, // Updated to 'backgroundColor'
           side: BorderSide(
             color: Color(0xFF315EE7), // Border color
-            width: 2.0, // Border width
+            width: 1.0, // Border width
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0), // Rounded corners
