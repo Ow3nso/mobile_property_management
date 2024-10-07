@@ -1,4 +1,0 @@
-#Mon Sep 30 14:13:50 EAT 2024
-base.0=/home/ow3nso/projects/property_management_system/dashboard_pkg/example/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
-path.0=classes.dex
-renamed.0=classes.dex

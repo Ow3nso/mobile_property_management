@@ -41,7 +41,6 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/signUp': (context) => SignUpPage(),
-        '/logIn': (context) => LoginPage(),
         '/genesis': (context) => GenesisPage(),
       },
     );

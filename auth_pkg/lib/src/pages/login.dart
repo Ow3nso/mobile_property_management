@@ -6,7 +6,6 @@ import 'package:settings_pkg/src/pages/main_page.dart';
 
 import '../widgets/button.dart';
 import '../widgets/input_field.dart';
-import '../widgets/or_divider.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -75,7 +74,7 @@ class LoginPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 80),
+                SizedBox(height: 100),
                 Text(
                   'Rentaxo',
                   style: TextStyle(
@@ -126,30 +125,19 @@ class LoginPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end, // Move to the end
                   children: [
-                    InkWell(
-                      onTap: () {
-                        Future.delayed(const Duration(seconds: 3), () {
-                          Navigator.of(context, rootNavigator: true).push(
-                            MaterialPageRoute(
-                              builder: (_) => LoginPage(),
-                            ),
-                          );
-                        });
-                      },
-                      child: Text(
-                        'FORGOT PASSWORD?',
-                        style: TextStyle(
-                          color: Color(0xFF888888),
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.normal,
-                        ),
+                    Text(
+                      'FORGOT PASSWORD?',
+                      style: TextStyle(
+                        color: Color(0xFF888888),
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.normal,
                       ),
-                    )
+                    ),
                   ],
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 30),
                 CustomButton(
-                  label: 'Sign In',
+                  label: 'Login',
                   onPressed: () async {
                     String message = '';
                     if (_formKey.currentState!.validate()) { // Use form key for validation
@@ -188,37 +176,35 @@ class LoginPage extends StatelessWidget {
                   width: double.infinity,
                   height: 50,
                 ),
-                // Add some spacing before OR LOGIN WITH text
+                SizedBox(height: 30), // Add some spacing before OR LOGIN WITH text
                 Center(
                   child: Column(
                     children: [
-                      Column(
+                      Text(
+                        'OR LOGIN WITH',
+                        style: TextStyle(
+                          color: Color(0xFF888888),
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      SizedBox(height: 10), // Space between text and icons
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 20.0),
-                            child: HorizontalLineWithOr(),
-                          ),
-                          CustomButton(
-                            label: 'Continue with google',
+                          IconButton(
+                            icon: Icon(Icons.account_circle),
+                            iconSize: 40.0,
                             onPressed: () async {
                               await signInWithGoogle(context);
                             },
-                            color: Colors.white,
-                            textColor: Colors.black,
-                            width: double.infinity,
-                            height: 40,
                           ),
-                          SizedBox(height:20),
-                          CustomButton(
-                            label: 'Continue with facebook',
-                            onPressed: () async {
-                              await signInWithGoogle(context);
+                          IconButton(
+                            icon: Icon(Icons.facebook),
+                            iconSize: 40.0,
+                            onPressed: () {
+                              // Add Facebook login functionality here
                             },
-                            color: Colors.white,
-                            textColor: Colors.black,
-                            width: double.infinity,
-                            height: 40,
                           ),
                         ],
                       ),
