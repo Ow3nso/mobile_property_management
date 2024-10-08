@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../widgets/button.dart';
 import '../widgets/input_field.dart';
+import 'package:settings_pkg/src/pages/main_page.dart';
 
 class SignUpPage extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
@@ -9,131 +13,259 @@ class SignUpPage extends StatelessWidget {
   final TextEditingController numberController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  Future<UserCredential?> signInWithGoogle(BuildContext context) async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      await GoogleSignIn().signOut();
+
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+      if (googleAuth != null) {
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+
+        // Navigate to the main page after successful sign-in using MaterialPageRoute
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => MainPage()),
+        );
+
+        return userCredential;
+      } else {
+        Fluttertoast.showToast(
+          msg: "Google sign-in failed",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.SNACKBAR,
+          backgroundColor: Colors.black54,
+          textColor: Colors.white,
+          fontSize: 14.0,
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      Fluttertoast.showToast(
+        msg: e.toString(),
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.SNACKBAR,
+        backgroundColor: Colors.black54,
+        textColor: Colors.white,
+        fontSize: 14.0,
+      );
+    }
+    return null; // Return null if sign-in fails
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Set the background color to white
-      body: SingleChildScrollView( // Wrap Column with SingleChildScrollView
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 50),
-              Center(
-                child: Text(
-                  'Sign Up',
-                  style: TextStyle(
-                    fontSize: 57.0,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF22215B),
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 50),
+                      Center(
+                        child: Text(
+                          'Sign Up',
+                          style: TextStyle(
+                            fontSize: 57.0,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF22215B),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Text(
+                        'Full Name',
+                        style: TextStyle(
+                          color: Color(0xFF888888),
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      CustomInputField(
+                        hintText: 'John Doe',
+                        isPassword: false,
+                        controller: nameController,
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Email',
+                        style: TextStyle(
+                          color: Color(0xFF888888),
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      CustomInputField(
+                        hintText: 'example@gmail.com',
+                        isPassword: false,
+                        controller: emailController,
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'PASSWORD',
+                        style: TextStyle(
+                          color: Color(0xFF888888),
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      CustomInputField(
+                        hintText: 'password',
+                        isPassword: true,
+                        controller: passwordController,
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Confirm PASSWORD',
+                        style: TextStyle(
+                          color: Color(0xFF888888),
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      CustomInputField(
+                        hintText: 'confirm password',
+                        isPassword: true,
+                        controller: confirmPasswordController,
+                      ),
+                      SizedBox(height: 30),
+                      CustomButton(
+                        label: 'Submit',
+                        onPressed: () async {
+                          String message = '';
+                          if (_formKey.currentState!.validate()) {
+                            try {
+                              UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+                                email: emailController.text.trim(),
+                                password: passwordController.text.trim(),
+                              );
+
+                              // Update the user's profile with the full name
+                              await userCredential.user?.updateProfile(displayName: nameController.text.trim());
+
+                              Fluttertoast.showToast(
+                                msg: "Account created successfully!",
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.SNACKBAR,
+                                backgroundColor: Colors.black54,
+                                textColor: Colors.white,
+                                fontSize: 14.0,
+                              );
+
+                              Future.delayed(const Duration(seconds: 3), () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => MainPage()),
+                                );
+                              });
+                            } on FirebaseAuthException catch (e) {
+                              if (e.code == 'weak-password') {
+                                message = 'The password provided is too weak.';
+                              } else if (e.code == 'email-already-in-use') {
+                                message = 'An account already exists with that email.';
+                              }
+                              Fluttertoast.showToast(
+                                msg: message,
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.SNACKBAR,
+                                backgroundColor: Colors.black54,
+                                textColor: Colors.white,
+                                fontSize: 14.0,
+                              );
+                            } catch (e) {
+                              Fluttertoast.showToast(
+                                msg: "Failed: $e",
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.SNACKBAR,
+                                backgroundColor: Colors.black54,
+                                textColor: Colors.white,
+                                fontSize: 14.0,
+                              );
+                            }
+                          }
+                        },
+                        color: Color(0xFF315EE7),
+                        textColor: Colors.white,
+                        width: double.infinity,
+                        height: 50,
+                      ),
+                      SizedBox(height: 20),
+                      Center(
+                        child: Column(
+                          children: [
+                            Text(
+                              'OR SIGNUP WITH',
+                              style: TextStyle(
+                                color: Color(0xFF888888),
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                  icon: Icon(Icons.account_circle),
+                                  iconSize: 40.0,
+                                  onPressed: () async {
+                                    await signInWithGoogle(context);
+                                  },
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.facebook),
+                                  iconSize: 40.0,
+                                  onPressed: () {
+                                    // Add Facebook login functionality here
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              Text(
-                'Full Name',
-                style: TextStyle(
-                  color: Color(0xFF888888),
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              SizedBox(height: 10),
-              CustomInputField(
-                hintText: 'John Doe',
-                isPassword: false,
-                controller: nameController,
-              ),
-              SizedBox(height: 10),
-              Text(
-                'Email',
-                style: TextStyle(
-                  color: Color(0xFF888888),
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              SizedBox(height: 10),
-              CustomInputField(
-                hintText: 'example@gmail.com',
-                isPassword: false,
-                controller: emailController,
-              ),
-              SizedBox(height: 10),
-              // Text(
-              //   'Phone Number',
-              //   style: TextStyle(
-              //     color: Color(0xFF888888),
-              //     fontSize: 14.0,
-              //     fontWeight: FontWeight.normal,
-              //   ),
-              // ),
-              // SizedBox(height: 10),
-              // CustomInputField(
-              //   hintText: '+254712345678',
-              //   isPassword: false,
-              //   controller: numberController,
-              // ),
-              // SizedBox(height: 10),
-              Text(
-                'PASSWORD',
-                style: TextStyle(
-                  color: Color(0xFF888888),
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              SizedBox(height: 10),
-              CustomInputField(
-                hintText: 'password',
-                isPassword: true,
-                controller: passwordController,
-              ),
-              SizedBox(height: 10),
-              Text(
-                'Confirm PASSWORD',
-                style: TextStyle(
-                  color: Color(0xFF888888),
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              SizedBox(height: 10),
-              CustomInputField(
-                hintText: 'confirm password',
-                isPassword: true,
-                controller: confirmPasswordController,
-              ),
-              SizedBox(height: 30),
-              CustomButton(
-                label: 'Submit',
-                onPressed: () {
-                  // Define your action here
-                  print('Button Pressed!');
-                },
-                color: Color(0xFF315EE7),
-                textColor: Colors.white,
-                width: double.infinity,
-                height: 50,
-              ),
-              SizedBox(height: 30),
-              Center(
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/logIn');
-                  },
-                  child: Text(
-                    'Already have an account? Log In',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
+                Center(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/logIn');
+                    },
+                    child: Text(
+                      'Already have an account? Log In',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
