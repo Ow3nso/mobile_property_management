@@ -6,6 +6,7 @@ import 'package:settings_pkg/src/pages/main_page.dart';
 
 import '../widgets/button.dart';
 import '../widgets/input_field.dart';
+import '../widgets/or_divider.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -74,7 +75,7 @@ class LoginPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 100),
+                SizedBox(height: 70),
                 Text(
                   'Rentaxo',
                   style: TextStyle(
@@ -135,7 +136,7 @@ class LoginPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: 20),
                 CustomButton(
                   label: 'Login',
                   onPressed: () async {
@@ -176,35 +177,35 @@ class LoginPage extends StatelessWidget {
                   width: double.infinity,
                   height: 50,
                 ),
-                SizedBox(height: 30), // Add some spacing before OR LOGIN WITH text
+                SizedBox(height: 20), // Add some spacing before OR LOGIN WITH text
                 Center(
                   child: Column(
                     children: [
-                      Text(
-                        'OR LOGIN WITH',
-                        style: TextStyle(
-                          color: Color(0xFF888888),
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
+                      OrDivider(),
                       SizedBox(height: 10), // Space between text and icons
-                      Row(
+                      Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          IconButton(
-                            icon: Icon(Icons.account_circle),
-                            iconSize: 40.0,
+                          CustomButton(
+                            label: 'Continue with google',
                             onPressed: () async {
                               await signInWithGoogle(context);
                             },
+                            color: Colors.white,
+                            textColor: Colors.black,
+                            width: double.infinity,
+                            height: 50,
                           ),
-                          IconButton(
-                            icon: Icon(Icons.facebook),
-                            iconSize: 40.0,
-                            onPressed: () {
-                              // Add Facebook login functionality here
+                          const SizedBox(height: 20),
+                          CustomButton(
+                            label: 'Continue with facebook',
+                            onPressed: () async {
+                              await signInWithGoogle(context);
                             },
+                            color: Colors.white,
+                            textColor: Colors.black,
+                            width: double.infinity,
+                            height: 50,
                           ),
                         ],
                       ),

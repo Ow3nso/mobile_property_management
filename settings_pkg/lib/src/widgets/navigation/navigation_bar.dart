@@ -20,23 +20,23 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
       unselectedItemColor: Colors.grey,
       backgroundColor: Colors.white, // Set background color to white
       type: BottomNavigationBarType.fixed, // Make labels always visible
-      iconSize: 28.0, // Increase icon size
+      iconSize: 30.0, // Increase icon size
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.explore),
-          label: 'Explore',
+          icon: Icon(Icons.account_balance_wallet),
+          label: 'Wallet',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.chat),
+          icon: Icon(Icons.add_alarm),
+          label: 'List',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.message),
           label: 'Chat',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.favorite_border),
-          label: 'Saved',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),

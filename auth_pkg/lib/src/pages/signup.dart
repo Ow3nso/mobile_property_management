@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import 'package:settings_pkg/src/pages/main_page.dart';
+
 import '../widgets/button.dart';
 import '../widgets/input_field.dart';
-import 'package:settings_pkg/src/pages/main_page.dart';
+import '../widgets/or_divider.dart';
+import '../pages/account_type.dart';
+
+
 
 class SignUpPage extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
@@ -80,7 +86,7 @@ class SignUpPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 50),
+                      SizedBox(height: 30),
                       Center(
                         child: Text(
                           'Sign Up',
@@ -216,31 +222,31 @@ class SignUpPage extends StatelessWidget {
                       Center(
                         child: Column(
                           children: [
-                            Text(
-                              'OR SIGNUP WITH',
-                              style: TextStyle(
-                                color: Color(0xFF888888),
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Row(
+                            OrDivider(),
+                            const SizedBox(height: 10),
+                            Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                IconButton(
-                                  icon: Icon(Icons.account_circle),
-                                  iconSize: 40.0,
+                                CustomButton(
+                                  label: 'Continue with google',
                                   onPressed: () async {
                                     await signInWithGoogle(context);
                                   },
+                                  color: Colors.white,
+                                  textColor: Colors.black,
+                                  width: double.infinity,
+                                  height: 50,
                                 ),
-                                IconButton(
-                                  icon: Icon(Icons.facebook),
-                                  iconSize: 40.0,
-                                  onPressed: () {
-                                    // Add Facebook login functionality here
+                                const SizedBox(height: 20),
+                                CustomButton(
+                                  label: 'Continue with facebook',
+                                  onPressed: () async {
+                                    await signInWithGoogle(context);
                                   },
+                                  color: Colors.white,
+                                  textColor: Colors.black,
+                                  width: double.infinity,
+                                  height: 50,
                                 ),
                               ],
                             ),
@@ -253,7 +259,10 @@ class SignUpPage extends StatelessWidget {
                 Center(
                   child: InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, '/logIn');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder:(context) => AccountSelectionPage()),
+                      );
                     },
                     child: Text(
                       'Already have an account? Log In',
